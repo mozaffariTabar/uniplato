@@ -8,37 +8,92 @@ const db = mysql.createConnection({
 
 db.connect();
 
-const readBook = (id) => {
-  return `SELECT 
-        books.id, 
-        books.title,
-        books.subtitle,
-        authors.name as author, 
-        books.published, 
-        publishers.name as publisher,
-        books.pages,
-        books.description,
-        books.website
-    FROM books 
-    INNER JOIN authors ON 
-        books.author = authors.id 
-    INNER JOIN publishers ON 
-        books.publisher = publishers.id 
-    WHERE ${id ? "books.id=" + id : 1}`;
+// Admin queries
+const readAdmin = (info) => {
+  return `SELECT * FROM admins
+    WHERE email='${info.email}' AND password='${info.password}'`;
 };
 
-const createBook = (info) => {};
+const createAdmin = (info) => {
+  return `INSERT INTO admins
+      (email, password)
+    VALUES
+      ('${info.email}','${info.password}')`;
+};
 
-const deleteBook = (id) => {};
+const deleteAdmin = (info) => {
+  return `DELETE FROM admins WHERE email='${info.email}' AND passord='${info.password}'`;
+};
 
-const updateBook = (info) => {};
+// Book queries
+const readBook = (isbn) => {
+  return `SELECT 
+      books.isbn, 
+      books.title,
+      books.subtitle,
+      books.categories,
+      authors.name as author, 
+      books.published, 
+      publishers.name as publisher,
+      books.pages,
+      books.description,
+      books.website
+    FROM books 
+    INNER JOIN authors ON 
+      books.author = authors.id 
+    INNER JOIN publishers ON 
+      books.publisher = publishers.id 
+    WHERE ${isbn ? "isbn=" + isbn : "1"}`;
+};
+
+const createBook = (info) => {
+  return `INSERT INTO books
+      (${Object.keys(info).join(",")})
+    VALUES
+      ('${Object.values(info)
+        .map((item) => ("" + item).replace(/'/g, "\\'"))
+        .join("','")}')`;
+};
+
+const updateBook = (info) => {
+  let values = [];
+
+  for (let i in info) 
+    values.push(`${i}=${("" + info[i]).replace(/'/g, "\\'")}`);
+
+  return `UPDATE books SET ${values.join(",")} WHERE isbn=${info.isbn}`;
+};
+
+const deleteBook = (isbn) => {
+  return `DELETE FROM books WHERE isbn=${isbn}`;
+};
+
+// Category queries
+const readCategory = (filter) => {
+  const key = Object.keys(filter)[0];
+  return `SELECT * FROM categories WHERE ${filter[key] ? `${key}=${filter[key]}` : "1"}`;
+};
+
+const createCategory = (name) => {
+  return `INSERT INTO categories (name) VALUES (${name})`;
+};
+
+const updateCategory = (info) => {
+  return `UPDATE books SET name=${info.name} WHERE isbn=${info.id}`;
+};
 
 module.exports = {
   db,
-  book: {
-    read: readBook,
-    create: createBook,
-    delete: deleteBook,
-    update: updateBook,
-  },
+  query: {
+    readAdmin,
+    createAdmin,
+    deleteAdmin,
+    readBook,
+    createBook,
+    updateBook,
+    deleteBook,
+    readCategory,
+    createCategory,
+    updateCategory
+  }
 };
