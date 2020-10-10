@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const { db, query } = require("../database/mysql");
+const { db, query } = require("../model/mysql");
 
 router.post('/', (req, res) => {
     db.query(query.readAdmin(req.body), (err, results) => {

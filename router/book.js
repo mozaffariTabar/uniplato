@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { db, query } = require("../database/mysql");
+const { db, query } = require("../model/mysql");
 const { authenticateToken } = require('./auth');
 
 router.get("/:isbn?", authenticateToken, (req, res) => {
