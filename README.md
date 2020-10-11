@@ -3,11 +3,19 @@
 **An RESTFUL API which you can do**
 
 - **Login** with **email** and **password**.
-- **Receive** the **Authenticate Bearer token** and perform your next operation with it.
+- **Get** the **Authenticate Bearer token** and perform your next operation with it.
 - **Create** or **delete** the desired **admin** user.
 - **Create** book **categories** or **edit** existing category titles.
 - **Read** the **categories** in general or with the desired ID.
 - **Create** a new **book**, or **edit** any of the existing books, or **delete** an specific book with the ISBN attribute. You can also **read** all the books in general or just a specific book or a certain number of books.
+
+## Setup and Initialization
+
+1. Install mySql on your machine
+2. import **./uniplato.sql** into the database
+3. Edit MYSQL connection props in **.env** file
+4. move to the project directory like `> cd C:/uniplato` then run this `npm run devStart`
+5. Now, start to talk with API. **Enjoy!**
 
 ## Login
 
