@@ -26,7 +26,7 @@ const deleteAdmin = (info) => {
 };
 
 // Book queries
-const readBook = (isbn) => {
+const readBook = (isbn, number = null) => {
   return `SELECT 
       books.isbn, 
       books.title,
@@ -43,7 +43,8 @@ const readBook = (isbn) => {
       books.author = authors.id 
     INNER JOIN publishers ON 
       books.publisher = publishers.id 
-    WHERE ${isbn ? "isbn=" + isbn : "1"}`;
+    WHERE ${isbn ? "isbn=" + isbn : "1"}
+    ${number ? `LIMIT ${number}` : ''}`;
 };
 
 const createBook = (info) => {

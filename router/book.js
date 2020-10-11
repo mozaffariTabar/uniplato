@@ -28,6 +28,31 @@ router.get("/:isbn?", authenticateToken, (req, res) => {
     });
 });
 
+router.get("/limit/:number", authenticateToken, (req, res) => {
+    db.query(query.readBook(null, req.params.number), (err, books) => {
+        if (err) throw err;
+        
+        if (books.length == 0) {
+            return res.status(400).json({ Message: "No books found" });
+        }
+
+        db.query(query.readCategory({}), (err, categories) => {
+            if (err) throw err;
+
+            let cats = {};
+            for (let i in categories) {
+                cats[categories[i]['id']] = categories[i]['name'];
+            }
+
+            for (let i in books) {
+                books[i]['categories'] = books[i].categories.split(',').map(i => cats[i]).join(',');
+            }
+
+            res.status(200).json(books);
+        });
+    });
+});
+
 router.post("/", authenticateToken, (req, res) => {
     db.query(query.readBook(req.body.isbn), (err, results) => {
         if (err) throw err;

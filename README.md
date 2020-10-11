@@ -1,63 +1,100 @@
-# Uniplato Books API
+# Uniplato Book API
 
-## LOGIN
+**An RESTFUL API which you can do**
 
-### Login with your added admin or with main-admin -> (email: admin@admin.com, pass:admin123)
+- **Login** with **email** and **password**.
+- **Receive** the **Authenticate Bearer token** and perform your next operation with it.
+- **Create** or **delete** the desired **admin** user.
+- **Create** book **categories** or **edit** existing category titles.
+- **Read** the **categories** in general or with the desired ID.
+- **Create** a new **book**, or **edit** any of the existing books, or **delete** an specific book with the ISBN attribute. You can also **read** all the books in general or just a specific book or a certain number of books.
 
-### After login you have to send other requests with given token with bearer auth in header of the request
+## Login
 
-> **_ POST http://<host_name>:<port_number>/login _**
-> \_ Params [email, password]
+- Login with your added admin or with main-admin -> (email: admin@admin.com, password:admin123)
+- After login you have to send other requests with given token with Bearer authentication in header of the request
+
+> Method: **POST**
+> End-point: http://<host_name>:<port_number>/login
+> Params: email, password
 
 ## ADMIN
 
-### Add admin
+**Add**
 
-> **_ POST http://<host_name>:<port_number>/admin _**
-> \_ Params [email, password]
+> Method: **POST**
+> End-point: http://<host_name>:<port_number>/admin
+> Params: email, password
 
-### Remove admin
+**Remove**
 
-> **_ DELETE http://<host_name>:<port_number>/admin _**
-> \_ Params [email, password]
+> Method: **DELETE**
+> End-point: http://<host_name>:<port_number>/admin
+> Params: email, password
 
 ## CATEGORY
 
-### Read category
+**Read all**
 
-> **_ GET http://<host_name>:<port_number>/category/:id _**
-> \_ Note: id is optional
+> Method: **GET**
+> End-point: http://<host_name>:<port_number>/category
 
-### Add category
+**Read special id**
 
-> **_ POST http://<host_name>:<port_number>/category _**
-> \_ Params [email, password]
+> Method: **GET**
+> End-point: http://<host_name>:<port_number>/category/\<id>
+> Params: id
 
-### Update category
+**Add**
 
-> **_ PUT http://<host_name>:<port_number>/category _**
-> \_ Params [email, password]
+> Method: **POST**
+> End-point: http://<host_name>:<port_number>/category
+> Params: email, password
+
+**Update**
+
+> Method: **PUT**
+> End-point: http://<host_name>:<port_number>/category
+> Params: email, password
 
 ## BOOK
 
-### Read book
+**Read all**
 
-> **_ GET http://<host_name>:<port_number>/book/:isbn _**
-> \_ Note: isbn is optional
+> Method: **GET**
+> End-point: http://<host_name>:<port_number>/book
 
-### Add book
+**Read special book**
 
-> **_ POST http://<host_name>:<port_number>/book _**
-> \_ Params [isbn, title, subtitle, categories, author, publisher, published, pages, description, website]
+> Method: **GET**
+> End-point: http://<host_name>:<port_number>/book/\<isbn>
+> Params: isbn
 
-### Update book
+**Read some books**
 
-> **_ PUT http://<host_name>:<port_number>/book _**
-> _ Params [isbn, title, subtitle, categories, author, publisher, published, pages, description, website]
-> _ You can send part or all of this data to update
+> Method: **GET**
+> End-point: http://<host_name>:<port_number>/book/limit\/<number>
+> Params: number
 
-### Delete book
+**Add**
 
-> **_ PUT http://<host_name>:<port_number>/book _**
-> _ Params [isbn]
-> _ You can send part or all of this params to update
+> Method: **POST**
+> End-point: http://<host_name>:<port_number>/book
+> Params: isbn, title, subtitle, categories, author, publisher, published, pages, description, website
+
+**Update**
+
+> Method: **PUT**
+> End-point: http://<host_name>:<port_number>/book
+> Params: isbn, title, subtitle, categories, author, publisher, published, pages, description, website
+> **Note**: You can send part or all of this params to update
+
+**Delete**
+
+> Method: **DELETE**
+> End-point: http://<host_name>:<port_number>/book
+> Params: isbn
+
+## Diagrams
+
+**I am working on it ...**
