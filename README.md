@@ -12,8 +12,8 @@
 
 ## Setup and Initialization
 
-1. Install mySql on your machine
-2. import **./uniplato.sql** into the database
+1. Install **MySQL server** on your machine
+2. import **./uniplato.sql** into the mysql server
 3. Edit MYSQL connection props in **.env** file
 4. move to the project directory like `> cd C:/uniplato` then run this `npm run devStart`
 5. Now, start to talk with API. **Enjoy!**
@@ -117,6 +117,35 @@
 > End-point: `http://<host_name>:<port_number>/book`  
 > Params: isbn
 
-## Diagrams
+## DataBase Structure
 
-**I am working on it ...**
+**Admins table**
+    - id : [int] foreign key
+    - email: [string]
+    - password: [string]
+
+**Authors table**
+    - id: [int] foreign key
+    - name: [string]
+
+**Publishers table**
+    - id: [int] foreign key
+    - name: [string]
+
+**Categories table**
+    - id: [int] foreign key
+    - name: [string]
+
+**Books table**
+    - Isbn: [string] foreign key
+    - Title: [string]
+    - Subtitle: [string]
+    - categories: [string]
+    - Author: [int]
+    - Published: [date]
+    - Publisher: [int]
+    - Pages: [int]
+    - Description: [string]
+    - Website: [string]
+    - rate: [float]
+    - review: [int]
