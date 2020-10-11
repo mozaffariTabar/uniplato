@@ -3,6 +3,7 @@ const router = express.Router();
 const { db, query } = require("../model/mysql");
 const { authenticateToken } = require('./auth');
 
+// Return special category with its id or all categories
 router.get("/:id?", authenticateToken, (req, res) => {
     db.query(query.readCategory({ id: req.params.id }), (err, results) => {
     if (err) throw err;
@@ -12,6 +13,7 @@ router.get("/:id?", authenticateToken, (req, res) => {
     });
 });
 
+// Add new category
 router.post("/", authenticateToken, (req, res) => {
     db.query(query.readCategory({ name: req.body.name }), (err, results) => {
         if (err) throw err;
@@ -27,6 +29,7 @@ router.post("/", authenticateToken, (req, res) => {
     });
 });
 
+// Update special category with its id
 router.put("/", authenticateToken, (req, res) => {
     db.query(query.updateCategory(req.body), (err) => {
     if (err) throw err;

@@ -4,6 +4,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { db, query } = require("../model/mysql");
 
+// Add new admin
+// Keep in mind that you can't remove main admin -> (email:admin@admin.com)
 router.post('/', (req, res) => {
     db.query(query.readAdmin(req.body), (err, results) => {
         if (err) throw err;
@@ -16,6 +18,7 @@ router.post('/', (req, res) => {
     });
 });
 
+// Check and verify user information (JWT)
 function authenticateToken (req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

@@ -26,7 +26,18 @@ const deleteAdmin = (info) => {
 };
 
 // Book queries
-const readBook = (isbn, number = null) => {
+const readBook = (filter, number = null) => {
+  let filter_str = '1';
+  let column;
+  let pattern;
+  if (filter) {
+    column = Object.keys(filter)[0];
+    pattern = '' + filter[column];
+    if (column == 'categories') {
+      pattern += ',';
+    }
+    filter_str = `${column} LIKE '%${pattern}%'`;
+  }
   return `SELECT 
       books.isbn, 
       books.title,
@@ -43,11 +54,14 @@ const readBook = (isbn, number = null) => {
       books.author = authors.id 
     INNER JOIN publishers ON 
       books.publisher = publishers.id 
-    WHERE ${isbn ? "isbn=" + isbn : "1"}
+    WHERE ${filter_str}
     ${number ? `LIMIT ${number}` : ''}`;
 };
 
 const createBook = (info) => {
+  if (info.categories.slice(-1) !== ',') {
+    info.categories.push(',');
+  }
   return `INSERT INTO books
       (${Object.keys(info).join(",")})
     VALUES
