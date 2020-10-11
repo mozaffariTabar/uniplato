@@ -86,7 +86,7 @@
 
 > Method: **PUT**  
 > End-point: http://<host_name>:<port_number>/book  
-> Params: isbn, title, subtitle, categories, author, publisher, published, pages, description, website
+> Params: isbn, title, subtitle, categories, author, publisher, published, pages, description, website  
 > **Note**: You can send part or all of this params to update
 
 **Delete**
