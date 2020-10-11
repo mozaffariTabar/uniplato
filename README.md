@@ -119,33 +119,33 @@
 
 ## DataBase Structure
 
-**Admins table**
-    - id : [int] foreign key
-    - email: [string]
-    - password: [string]
+**Admins table**  
+  - id : [int] foreign key  
+  - email: [string]  
+  - password: [string]  
 
-**Authors table**
-    - id: [int] foreign key
-    - name: [string]
+**Authors table**  
+  - id: [int] foreign key  
+  - name: [string]  
 
-**Publishers table**
-    - id: [int] foreign key
-    - name: [string]
+**Publishers table**  
+  - id: [int] foreign key  
+  - name: [string]  
 
-**Categories table**
-    - id: [int] foreign key
-    - name: [string]
+**Categories table**  
+  - id: [int] foreign key  
+  - name: [string]  
 
-**Books table**
-    - Isbn: [string] foreign key
-    - Title: [string]
-    - Subtitle: [string]
-    - categories: [string]
-    - Author: [int]
-    - Published: [date]
-    - Publisher: [int]
-    - Pages: [int]
-    - Description: [string]
-    - Website: [string]
-    - rate: [float]
-    - review: [int]
+**Books table**  
+  - Isbn: [string] foreign key  
+  - Title: [string]  
+  - Subtitle: [string]  
+  - categories: [string]  
+  - Author: [int]  
+  - Published: [date]  
+  - Publisher: [int]  
+  - Pages: [int]  
+  - Description: [string]  
+  - Website: [string]  
+  - rate: [float]  
+  - review: [int]  
