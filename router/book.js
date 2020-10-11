@@ -11,6 +11,21 @@ import {
     readCategory } from "../model/mysql.js";
 import { authenticateToken } from './auth.js';
 
+// Return all books
+router.get("/", authenticateToken, (req, res) => {
+    db.query(readBook(), (err, books) => {
+        if (err) throw err;
+        if (books.length == 0) {
+            return res.status(400).json({ Message: "No books found" });
+        }
+
+        db.query(readCategory({}), (err, categories) => {
+            if (err) throw err;
+            res.status(200).json(category_int_to_str(books, categories));
+        });
+    });
+});
+
 // Return book with special isbn
 router.get("/isbn/:isbn?", authenticateToken, (req, res) => {
     db.query(readBook({ isbn: req.params.isbn }), (err, books) => {

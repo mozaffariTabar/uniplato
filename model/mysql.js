@@ -24,11 +24,11 @@ const createAdmin = (info) => {
 };
 
 const deleteAdmin = (info) => {
-  return `DELETE FROM admins WHERE email='${info.email}' AND passord='${info.password}'`;
+  return `DELETE FROM admins WHERE email='${info.email}' AND password='${info.password}'`;
 };
 
 // Book queries
-const readBook = (filter, number = null) => {
+const readBook = (filter = null, number = null) => {
   let filter_str = '1';
   let column;
   let pattern;
@@ -40,6 +40,7 @@ const readBook = (filter, number = null) => {
     }
     filter_str = `${column} LIKE '%${pattern}%'`;
   }
+
   return `SELECT 
       books.isbn, 
       books.title,
@@ -52,7 +53,7 @@ const readBook = (filter, number = null) => {
       books.description,
       books.website,
       books.rate,
-      books.review,
+      books.review
     FROM books 
     INNER JOIN authors ON 
       books.author = authors.id 
@@ -64,21 +65,18 @@ const readBook = (filter, number = null) => {
 
 const createBook = (info) => {
   if (info.categories.slice(-1) !== ',') {
-    info.categories.push(',');
+    info.categories += ',';
   }
-  return `INSERT INTO books
-      (${Object.keys(info).join(",")})
-    VALUES
-      ('${Object.values(info)
-        .map((item) => ("" + item).replace(/'/g, "\\'"))
-        .join("','")}')`;
+  const cols = `${Object.keys(info).join(",")}`;
+  const vals = `'${Object.values(info).map((item) => ("" + item).replace(/'/g, "\\'")).join("','")}'`;
+  return `INSERT INTO books (${cols}) VALUES (${vals})`;
 };
 
 const updateBook = (info) => {
   let values = [];
 
   for (let i in info) 
-    values.push(`${i}=${("" + info[i]).replace(/'/g, "\\'")}`);
+    values.push(`${i}='${("" + info[i]).replace(/'/g, "\\'")}'`);
 
   return `UPDATE books SET ${values.join(",")} WHERE isbn=${info.isbn}`;
 };
@@ -90,15 +88,15 @@ const deleteBook = (isbn) => {
 // Category queries
 const readCategory = (filter) => {
   const key = Object.keys(filter)[0];
-  return `SELECT * FROM categories WHERE ${filter[key] ? `${key}=${filter[key]}` : "1"}`;
+  return `SELECT * FROM categories WHERE ${filter[key] ? `${key}="${filter[key]}"` : "1"}`;
 };
 
 const createCategory = (name) => {
-  return `INSERT INTO categories (name) VALUES (${name})`;
+  return `INSERT INTO categories (name) VALUES ('${name}')`;
 };
 
 const updateCategory = (info) => {
-  return `UPDATE books SET name=${info.name} WHERE isbn=${info.id}`;
+  return `UPDATE categories SET name='${info.name}' WHERE id=${info.id}`;
 };
 
 export {

@@ -22,7 +22,7 @@ router.post("/", authenticateToken, (req, res) => {
             return res.status(409).json({ Message: "This category is already exists!" });
         }
 
-        db.query(createCategory(req.body), (err) => {
+        db.query(createCategory(req.body.name), (err) => {
             if (err) throw err;
             res.status(201).json({ Message: "New category added successfully" });
         });

@@ -24,7 +24,7 @@
 - After login you have to send other requests with given token with Bearer authentication in header of the request
 
 > Method: **POST**  
-> End-point: `http://<host_name>:<port_number>/login`  
+> End-point: `http://<host_name>:<port_number>/api/login`  
 > Params: email, password
 
 ## ADMIN
@@ -58,13 +58,13 @@
 
 > Method: **POST**  
 > End-point: `http://<host_name>:<port_number>/category`  
-> Params: email, password
+> Params: name
 
 **Update**
 
 > Method: **PUT**  
 > End-point: `http://<host_name>:<port_number>/category`  
-> Params: email, password
+> Params: id, name
 
 ## BOOK
 

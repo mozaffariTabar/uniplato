@@ -5,7 +5,7 @@ import { authenticateToken } from './auth.js';
 
 // Add new admin
 router.post("/", authenticateToken, (req, res) => {
-    db.query(readAdmin(req.body.isbn), (err, results) => {
+    db.query(readAdmin(req.body), (err, results) => {
         if (err) throw err;
         if (results.length > 0) {
             return res.status(409).json({ Message: "This Admin is already exists!" })
