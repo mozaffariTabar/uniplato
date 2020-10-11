@@ -15,7 +15,7 @@
 - After login you have to send other requests with given token with Bearer authentication in header of the request
 
 > Method: **POST**  
-> End-point: http://<host_name>:<port_number>/login  
+> End-point:  http://<host_name>:<port_number>/login  
 > Params: email, password
 
 ## ADMIN
