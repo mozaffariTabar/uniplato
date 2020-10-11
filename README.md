@@ -72,17 +72,29 @@
 > Method: **GET**  
 > End-point: `http://<host_name>:<port_number>/book`
 
-**Read special book**
+**Read special book with ISBN**
 
 > Method: **GET**  
-> End-point: `http://<host_name>:<port_number>/book/<isbn>`  
+> End-point: `http://<host_name>:<port_number>/book/isbn/<isbn>`  
 > Params: isbn
 
-**Read some books**
+**Read special book with title**
+
+> Method: **GET**  
+> End-point: `http://<host_name>:<port_number>/book/title/<title>`  
+> Params: title
+
+**Read A certain number of books**
 
 > Method: **GET**  
 > End-point: `http://<host_name>:<port_number>/book/limit/<number>`  
 > Params: number
+
+**Read all books with certain category**
+
+> Method: **GET**  
+> End-point: `http://<host_name>:<port_number>/book/category/<name>`  
+> Params: name
 
 **Add**
 
