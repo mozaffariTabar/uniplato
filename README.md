@@ -8,6 +8,7 @@
 - **Create** book **categories** or **edit** existing category titles.
 - **Read** the **categories** in general or with the desired ID.
 - **Create** a new **book**, or **edit** any of the existing books, or **delete** an specific book with the ISBN attribute. You can also **read** all the books in general or just a specific book or a certain number of books.
+- **Rate and reviews number** will **Auto Scrap** when book loading with ISBN
 
 ## Setup and Initialization
 
@@ -77,6 +78,7 @@
 > Method: **GET**  
 > End-point: `http://<host_name>:<port_number>/book/isbn/<isbn>`  
 > Params: isbn
+> **Note**: when this route trigger, automaticly rate and reviews scrap from amazon.com and save to database. and you can see this two values in next request
 
 **Read special book with title**
 

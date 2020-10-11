@@ -1,12 +1,13 @@
-require("dotenv").config();
-const express = require('express');
-const router = express.Router();
-const jwt = require('jsonwebtoken');
-const { db, query } = require("../model/mysql");
+import dotenv from 'dotenv'
+dotenv.config();
+import Router from 'express';
+const authRouters = Router();
+import jwt from 'jsonwebtoken';
+import {db, readAdmin} from "../model/mysql.js";
 
 // Login with email and password
-router.post('/', (req, res) => {
-    db.query(query.readAdmin(req.body), (err, results) => {
+authRouters.post('/', (req, res) => {
+    db.query(readAdmin(req.body), (err, results) => {
         if (err) throw err;
         if (results.length == 0) {
             return res.status(400).json({ Message: "Admin not found" });
@@ -31,7 +32,7 @@ function authenticateToken (req, res, next) {
     next();
 }
 
-module.exports = {
-    authRouters: router,
+export {
+    authRouters,
     authenticateToken
 }

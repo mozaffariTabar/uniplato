@@ -1,11 +1,12 @@
-require("dotenv").config();
-const express = require("express");
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
 const app = express();
-const bodyParser = require('body-parser');
-const { authRouters } = require('./router/auth');
-const adminRouters = require('./router/admin');
-const bookRouters = require('./router/book');
-const categoryRouters = require('./router/category');
+import bodyParser from 'body-parser';
+import { authRouters } from './router/auth.js';
+import adminRouters from './router/admin.js';
+import bookRouters from './router/book.js';
+import categoryRouters from './router/category.js';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,7 +24,3 @@ app.listen(process.env.SERVER_PORT || 4000, () => {
     }`
   );
 });
-
-
-// HERUKO
-// JHCS&^S&^Ejh34r8

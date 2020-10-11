@@ -1,18 +1,28 @@
-const express = require('express');
-const router = express.Router();
-const { db, query } = require("../model/mysql");
-const { authenticateToken } = require('./auth');
+import axios from 'axios';
+import cheerio from 'cheerio';
+import Router from 'express';
+const router = Router();
+import { 
+    db, 
+    readBook, 
+    createBook, 
+    updateBook, 
+    deleteBook, 
+    readCategory } from "../model/mysql.js";
+import { authenticateToken } from './auth.js';
 
 // Return book with special isbn
 router.get("/isbn/:isbn?", authenticateToken, (req, res) => {
-    db.query(query.readBook({ isbn: req.params.isbn }), (err, books) => {
+    db.query(readBook({ isbn: req.params.isbn }), (err, books) => {
         if (err) throw err;
-        
         if (books.length == 0) {
             return res.status(400).json({ Message: "No books found" });
         }
 
-        db.query(query.readCategory({}), (err, categories) => {
+        // Scrap and update rate and review from amazon.com
+        scrap_book_data(req.params.isbn);
+
+        db.query(readCategory({}), (err, categories) => {
             if (err) throw err;
             res.status(200).json(category_int_to_str(books, categories));
         });
@@ -21,14 +31,12 @@ router.get("/isbn/:isbn?", authenticateToken, (req, res) => {
 
 // Return an special book with its title
 router.get("/title/:title?", authenticateToken, (req, res) => {
-    db.query(query.readBook({ title: req.params.title }), (err, books) => {
+    db.query(readBook({ title: req.params.title }), (err, books) => {
         if (err) throw err;
-        
         if (books.length == 0) {
             return res.status(400).json({ Message: "No books found" });
         }
-
-        db.query(query.readCategory({}), (err, categories) => {
+        db.query(readCategory({}), (err, categories) => {
             if (err) throw err;
             res.status(200).json(category_int_to_str(books, categories));
         });
@@ -37,14 +45,12 @@ router.get("/title/:title?", authenticateToken, (req, res) => {
 
 // Return all books with a category number
 router.get("/category/:number?", authenticateToken, (req, res) => {
-    db.query(query.readBook({ categories: req.params.number }), (err, books) => {
+    db.query(readBook({ categories: req.params.number }), (err, books) => {
         if (err) throw err;
-        
         if (books.length == 0) {
             return res.status(400).json({ Message: "No books found" });
         }
-
-        db.query(query.readCategory({}), (err, categories) => {
+        db.query(readCategory({}), (err, categories) => {
             if (err) throw err;
             res.status(200).json(category_int_to_str(books, categories));
         });
@@ -53,14 +59,12 @@ router.get("/category/:number?", authenticateToken, (req, res) => {
 
 // Return limited range of books
 router.get("/limit/:number", authenticateToken, (req, res) => {
-    db.query(query.readBook(null, req.params.number), (err, books) => {
+    db.query(readBook(null, req.params.number), (err, books) => {
         if (err) throw err;
-        
         if (books.length == 0) {
             return res.status(400).json({ Message: "No books found" });
         }
-
-        db.query(query.readCategory({}), (err, categories) => {
+        db.query(readCategory({}), (err, categories) => {
             if (err) throw err;
             res.status(200).json(category_int_to_str(books, categories));
         });
@@ -69,14 +73,12 @@ router.get("/limit/:number", authenticateToken, (req, res) => {
 
 // Create new book
 router.post("/", authenticateToken, (req, res) => {
-    db.query(query.readBook(req.body.isbn), (err, results) => {
+    db.query(readBook(req.body.isbn), (err, results) => {
         if (err) throw err;
-        
         if (results.length > 0) {
             return res.status(409).json({ Message: "This book is already exists!" })
         }
-
-        db.query(query.createBook(req.body), (err) => {
+        db.query(createBook(req.body), (err) => {
             if (err) throw err;
             res.status(201).json({ Message: "New book added successfully" })
         });
@@ -85,7 +87,7 @@ router.post("/", authenticateToken, (req, res) => {
 
 // Update a book with its uniqe ISBN
 router.put("/", authenticateToken, (req, res) => {
-    db.query(query.updateBook(req.body), (err) => {
+    db.query(updateBook(req.body), (err) => {
         if (err) throw err;
         res.status(200).json({ Message: "Book updated" })
     });
@@ -93,7 +95,7 @@ router.put("/", authenticateToken, (req, res) => {
 
 // delete a book with its uniqe ISBN
 router.delete("/", authenticateToken, (req, res) => {
-    db.query(query.deleteBook(req.body.isbn), (err) => {
+    db.query(deleteBook(req.body.isbn), (err) => {
         if (err) throw err;
         res.status(200).json({ Message: "The book deleted successfully" })
     });
@@ -112,4 +114,19 @@ const category_int_to_str = (books, categories) => {
 
     return books;
 }
-module.exports = router;
+
+// Scraping rate, review and img of book from amazon
+const scrap_book_data = (isbn) => {
+    axios.get(`https://www.amazon.co.uk/s?rh=p_66%3A${isbn}`)
+        .then(res => {
+            const $ = cheerio.load(res.data);
+            const rate = parseFloat($('.a-icon-alt').html().split(' ')[0]);
+            const review = parseInt($('a .a-size-base').html());
+            db.query(updateBook({ isbn, rate, review }), (err) => {
+                if (err) throw err;
+            });
+        })
+        .catch(console.error);
+}
+
+export default router;

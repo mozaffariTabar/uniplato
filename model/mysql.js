@@ -1,4 +1,6 @@
-const mysql = require("mysql");
+import dotenv from 'dotenv'
+dotenv.config();
+import mysql from "mysql";
 const db = mysql.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
@@ -97,18 +99,16 @@ const updateCategory = (info) => {
   return `UPDATE books SET name=${info.name} WHERE isbn=${info.id}`;
 };
 
-module.exports = {
+export {
   db,
-  query: {
-    readAdmin,
-    createAdmin,
-    deleteAdmin,
-    readBook,
-    createBook,
-    updateBook,
-    deleteBook,
-    readCategory,
-    createCategory,
-    updateCategory
-  }
+  readAdmin,
+  createAdmin,
+  deleteAdmin,
+  readBook,
+  createBook,
+  updateBook,
+  deleteBook,
+  readCategory,
+  createCategory,
+  updateCategory
 };
