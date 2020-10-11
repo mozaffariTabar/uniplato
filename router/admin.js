@@ -20,6 +20,7 @@ router.post("/", authenticateToken, (req, res) => {
 });
 
 // Delete created admin
+// Keep in mind that you can't remove main admin -> (email:admin@admin.com)
 router.delete("/", authenticateToken, (req, res) => {
     if (req.body.email === 'admin@admin.com') {
         return res.status(406).json({ Message: "You can't remove main admin" })
