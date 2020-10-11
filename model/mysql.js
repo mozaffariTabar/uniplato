@@ -50,7 +50,9 @@ const readBook = (filter, number = null) => {
       publishers.name as publisher,
       books.pages,
       books.description,
-      books.website
+      books.website,
+      books.rate,
+      books.review,
     FROM books 
     INNER JOIN authors ON 
       books.author = authors.id 
