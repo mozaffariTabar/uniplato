@@ -42,7 +42,7 @@
 **Read special id**
 
 > Method: **GET**  
-> End-point: `http://<host_name>:<port_number>/category/\<id>`  
+> End-point: `http://<host_name>:<port_number>/category/<id>`  
 > Params: id
 
 **Add**
@@ -67,13 +67,13 @@
 **Read special book**
 
 > Method: **GET**  
-> End-point: `http://<host_name>:<port_number>/book/\<isbn>`  
+> End-point: `http://<host_name>:<port_number>/book/<isbn>`  
 > Params: isbn
 
 **Read some books**
 
 > Method: **GET**  
-> End-point: `http://<host_name>:<port_number>/book/limit\/<number>`  
+> End-point: `http://<host_name>:<port_number>/book/limit/<number>`  
 > Params: number
 
 **Add**
